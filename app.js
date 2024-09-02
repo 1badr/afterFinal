@@ -1,9 +1,26 @@
 const express = require('express');
 const app = express();
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 const port = 3000;
 app.use(express.json());
 
-
+const option = {
+  definition: {
+  openapi: '3.0.0',
+  info: {
+    title: 'Trip Plan API',
+    version: '1.0.0',
+    description: 'API for managing trip plans',
+  },
+  servers: [
+    {
+      url: 'http://localhost:3000', // Update this with your server URL
+    },
+  ],
+},
+apis: ['./route/*.js'],
+}
 const mongoose = require('mongoose');
 
 mongoose.connect("mongodb://localhost:27017/flight", {
@@ -33,6 +50,8 @@ const ServicesRoute = require("./route/ServicesRoute");
 const CountryRoute = require("./route/CountryRoute");
 const CityRoute = require("./route/CityRoute");
 const BestHotelsRoute = require("./route/BestHotelsRoute");
+const FindCarsRoute = require("./route/FindCarsRoute");
+const swaggerJSDoc = require('swagger-jsdoc');
 app.use('/user',authRoute);
 app.use('/flight',FlightTrackerRoute);
 app.use('/hotel',FindHotelsRoute);
@@ -43,11 +62,19 @@ app.use('/services',ServicesRoute);
 app.use('/country',CountryRoute);
 app.use('/city',CityRoute);
 app.use('/besthotels',BestHotelsRoute);
+app.use('/cars',FindCarsRoute);
 
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+
+const spacs = swaggerJSDoc(option)
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(spacs)
+  )
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
