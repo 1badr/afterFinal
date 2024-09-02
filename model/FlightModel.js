@@ -1,48 +1,47 @@
 const mongoose = require('mongoose');
 
 const flightSchema = new mongoose.Schema({
-  flightDate: { //  تاريخ الرحلة
+  flightDate: { 
     type: String,
     required: true
   },
-  flightStatus: { //  حالة الرحلة
+  flightStatus: { 
     type: String,
     required: true,
-    enum: ['scheduled', 'delayed', 'cancelled', 'arrived', 'departed'] //  قائمة الحالات الممكنة
+    enum: ['scheduled', 'delayed', 'cancelled', 'arrived', 'departed'] 
   },
-  departure: { //  معلومات عن المغادرة
-    airport: { //  اسم مطار المغادرة
+  departure: { 
+    airport: { 
       type: String,
       required: true
     },
-    timezone: { //  منطقة زمنية مطار المغادرة
+    timezone: { 
       type: String,
       required: true
     },
-    iata: { //  رمز مطار المغادرة (IATA)
+    iata: { 
       type: String,
       required: true
     },
-    icao: { //  رمز مطار المغادرة (ICAO)
+    icao: { 
       type: String,
       required: true
     },
-    terminal: String, //  رقم بوابة المغادرة
-    gate: String, //  رقم بوابة المغادرة
-    delay: Number, //  مدة التأخير (إن وجد)
-    scheduled: { //  وقت المغادرة المجدول
+    terminal: String, 
+    gate: String, 
+    delay: Number, 
+    scheduled: { 
       type: Date,
       required: true
     },
-    estimated: { //  وقت المغادرة المتوقع
+    estimated: { 
       type: Date,
       required: true
     },
-    actual: Date, //  وقت المغادرة الفعلي (إن وجد)
-    estimatedRunway: Date, //  وقت المغادرة المتوقع من المدرج
-    actualRunway: Date //  وقت المغادرة الفعلي من المدرج (إن وجد)
+    actual: Date, 
+    estimatedRunway: Date, 
+    actualRunway: Date 
   },
-  // ... معلومات عن الوصول (arrival)
 });
 
 const flight = mongoose.model('flight', flightSchema);
